@@ -1,0 +1,14 @@
+config.json
+config.json.bak
+jlauncher.ico
+JLauncher.ico
+*.log
+__pycache__/
+*.pyc
+*.pyo
+build/
+dist/
+*.spec
+.venv/
+venv/
+*.exe
