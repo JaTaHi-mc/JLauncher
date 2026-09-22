@@ -267,38 +267,15 @@ def _cache_dir():
 
 
 def find_javas_cached(ttl_hours=12, log=None):
-    cache_file = _cache_dir() / "javas.json"
-    if cache_file.exists():
-        try:
-            with open(cache_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            age_h = (time.time() - data.get("ts", 0)) / 3600.0
-            if age_h < ttl_hours:
-                out = {}
-                ok = True
-                for k, v in data.get("javas", {}).items():
-                    existing = [p for p in v if Path(p).exists()]
-                    if not existing:
-                        ok = False
-                        break
-                    out[int(k)] = existing
-                if ok and out:
-                    if log: log(f"[✓] Java из кэша ({len(out)} шт., кэш {age_h:.1f} ч)")
-                    return out
-        except Exception:
-            pass
-    if log: log("[*] Первый скан Java (займёт секунду)...")
+    """Параметр ttl_hours оставлен для совместимости с вызовами,
+    но не используется. Кэш Java убран: скан быстрый, а устаревший
+    кэш мешает видеть только что установленную Java."""
+    if log:
+        log("[*] Скан Java...")
     javas = find_javas()
-    try:
-        with open(cache_file, "w", encoding="utf-8") as f:
-            json.dump({
-                "ts": time.time(),
-                "javas": {str(k): v for k, v in javas.items()},
-            }, f, ensure_ascii=False, indent=2)
-    except Exception:
-        pass
+    if not javas and log:
+        log("[!] Java не найдена — установи JDK/JRE и перезапусти лаунчер")
     return javas
-
 
 def _classpath_cache_path(vdir):
     return vdir / ".classpath.cache"
