@@ -178,3 +178,4 @@ cython_debug/
 #  and can be added to the Global gitignore or merged into this project gitignore. For a more
 #  complete list of JetBrains templates, see https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
 #.vscode/
+PYtoEXE.bat
